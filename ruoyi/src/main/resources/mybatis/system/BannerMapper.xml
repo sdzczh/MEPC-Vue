@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.BannerMapper">
+    
+    <resultMap type="Banner" id="BannerResult">
+        <result property="id"    column="id"    />
+        <result property="imgPath"    column="img_path"    />
+        <result property="type"    column="type"    />
+        <result property="address"    column="address"    />
+        <result property="title"    column="title"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBannerVo">
+        select id, img_path, type, address, title, create_time, update_time from banner
+    </sql>
+
+    <select id="selectBannerList" parameterType="Banner" resultMap="BannerResult">
+        <include refid="selectBannerVo"/>
+        <where>  
+            <if test="imgPath != null  and imgPath != ''"> and img_path = #{imgPath}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+        </where>
+    </select>
+    
+    <select id="selectBannerById" parameterType="Long" resultMap="BannerResult">
+        <include refid="selectBannerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBanner" parameterType="Banner" useGeneratedKeys="true" keyProperty="id">
+        insert into banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imgPath != null  and imgPath != ''">img_path,</if>
+            <if test="type != null ">type,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imgPath != null  and imgPath != ''">#{imgPath},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBanner" parameterType="Banner">
+        update banner
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgPath != null  and imgPath != ''">img_path = #{imgPath},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBannerById" parameterType="Long">
+        delete from banner where id = #{id}
+    </delete>
+
+    <delete id="deleteBannerByIds" parameterType="String">
+        delete from banner where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
