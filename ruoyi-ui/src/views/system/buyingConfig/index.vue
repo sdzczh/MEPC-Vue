@@ -1,25 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="ID" prop="id">
-        <el-input
-          v-model="queryParams.id"
-          placeholder="请输入ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="账户类型" prop="accountType">
-        <el-select v-model="queryParams.accountType" placeholder="请选择账户类型" clearable size="small">
-          <el-option
-            v-for="dict in accountTypeOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
       <el-form-item label="币种" prop="coinType">
         <el-select v-model="queryParams.coinType" placeholder="请选择币种" clearable size="small">
           <el-option
@@ -29,6 +10,15 @@
             :value="dict.dictValue"
           />
         </el-select>
+      </el-form-item>
+      <el-form-item label="开关" prop="onOff">
+        <el-input
+          v-model="queryParams.onOff"
+          placeholder="请输入开关"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -43,7 +33,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:account:add']"
+          v-hasPermi="['system:buyingConfig:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -53,7 +43,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:account:edit']"
+          v-hasPermi="['system:buyingConfig:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,7 +53,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:account:remove']"
+          v-hasPermi="['system:buyingConfig:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -72,19 +62,22 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:account:export']"
+          v-hasPermi="['system:buyingConfig:export']"
         >导出</el-button>
       </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="accountList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="buyingConfigList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="userId" />
-      <el-table-column label="可用余额" align="center" prop="availbalance" />
-      <el-table-column label="冻结余额" align="center" prop="frozenblance" />
-      <el-table-column label="账户类型" align="center" prop="accountType" :formatter="accountTypeFormat" />
+      <el-table-column label="id" align="center" prop="id" />
       <el-table-column label="币种" align="center" prop="coinType" :formatter="coinTypeFormat" />
+      <el-table-column label="开关" align="center" prop="onOff" :formatter="onOffFormat" />
+      <el-table-column label="当前价格" align="center" prop="nowPrice" />
+      <el-table-column label="流通量" align="center" prop="circulation" />
+      <el-table-column label="合约周期" align="center" prop="days" />
+      <el-table-column label="价格" align="center" prop="buyPrice" />
+      <el-table-column label="可获得数量" align="center" prop="getNumber" />
+      <el-table-column label="可购买次数" align="center" prop="buyCount" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -92,14 +85,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:account:edit']"
+            v-hasPermi="['system:buyingConfig:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:account:remove']"
+            v-hasPermi="['system:buyingConfig:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -113,28 +106,9 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改账户管理对话框 -->
+    <!-- 添加或修改矿池配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户id" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户id" />
-        </el-form-item>
-        <el-form-item label="可用余额" prop="availbalance">
-          <el-input v-model="form.availbalance" placeholder="请输入可用余额" />
-        </el-form-item>
-        <el-form-item label="冻结余额" prop="frozenblance">
-          <el-input v-model="form.frozenblance" placeholder="请输入冻结余额" />
-        </el-form-item>
-        <el-form-item label="账户类型">
-          <el-select v-model="form.accountType" placeholder="请选择账户类型">
-            <el-option
-              v-for="dict in accountTypeOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="币种">
           <el-select v-model="form.coinType" placeholder="请选择币种">
             <el-option
@@ -144,6 +118,27 @@
               :value="dict.dictValue"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="开关" prop="onOff">
+          <el-input v-model="form.onOff" placeholder="请输入开关" />
+        </el-form-item>
+        <el-form-item label="当前价格" prop="nowPrice">
+          <el-input v-model="form.nowPrice" placeholder="请输入当前价格" />
+        </el-form-item>
+        <el-form-item label="流通量" prop="circulation">
+          <el-input v-model="form.circulation" placeholder="请输入流通量" />
+        </el-form-item>
+        <el-form-item label="合约周期" prop="days">
+          <el-input v-model="form.days" placeholder="请输入合约周期" />
+        </el-form-item>
+        <el-form-item label="价格" prop="buyPrice">
+          <el-input v-model="form.buyPrice" placeholder="请输入价格" />
+        </el-form-item>
+        <el-form-item label="可获得数量" prop="getNumber">
+          <el-input v-model="form.getNumber" placeholder="请输入可获得数量" />
+        </el-form-item>
+        <el-form-item label="可购买次数" prop="buyCount">
+          <el-input v-model="form.buyCount" placeholder="请输入可购买次数" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -155,10 +150,10 @@
 </template>
 
 <script>
-import { listAccount, getAccount, delAccount, addAccount, updateAccount, exportAccount } from "@/api/system/account";
+import { listBuyingConfig, getBuyingConfig, delBuyingConfig, addBuyingConfig, updateBuyingConfig, exportBuyingConfig } from "@/api/system/buyingConfig";
 
 export default {
-  name: "Account",
+  name: "BuyingConfig",
   data() {
     return {
       // 遮罩层
@@ -171,78 +166,86 @@ export default {
       multiple: true,
       // 总条数
       total: 0,
-      // 账户管理表格数据
-      accountList: [],
+      // 矿池配置表格数据
+      buyingConfigList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
-      // 账户类型 0基础账户字典
-      accountTypeOptions: [],
       // 币种字典
       coinTypeOptions: [],
+      // 开关 0关 1开字典
+      onOffOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        id: undefined,
-        accountType: undefined,
         coinType: undefined,
+        onOff: undefined,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        userId: [
-          { required: true, message: "用户id不能为空", trigger: "blur" }
-        ],
-        availbalance: [
-          { required: true, message: "可用余额不能为空", trigger: "blur" }
-        ],
-        frozenblance: [
-          { required: true, message: "冻结余额不能为空", trigger: "blur" }
-        ],
-        accountType: [
-          { required: true, message: "账户类型不能为空", trigger: "blur" }
-        ],
         coinType: [
           { required: true, message: "币种不能为空", trigger: "blur" }
+        ],
+        onOff: [
+          { required: true, message: "开关 0关 1开不能为空", trigger: "blur" }
+        ],
+        nowPrice: [
+          { required: true, message: "当前价格不能为空", trigger: "blur" }
+        ],
+        circulation: [
+          { required: true, message: "流通量不能为空", trigger: "blur" }
+        ],
+        days: [
+          { required: true, message: "合约周期不能为空", trigger: "blur" }
+        ],
+        buyPrice: [
+          { required: true, message: "价格不能为空", trigger: "blur" }
+        ],
+        getNumber: [
+          { required: true, message: "可获得数量不能为空", trigger: "blur" }
+        ],
+        buyCount: [
+          { required: true, message: "可购买次数不能为空", trigger: "blur" }
         ],
         createTime: [
           { required: true, message: "创建时间不能为空", trigger: "blur" }
         ],
         updateTime: [
-          { required: true, message: "更新时间不能为空", trigger: "blur" }
+          { required: true, message: "修改时间不能为空", trigger: "blur" }
         ]
       }
     };
   },
   created() {
     this.getList();
-    this.getDicts("account_type").then(response => {
-      this.accountTypeOptions = response.data;
-    });
     this.getDicts("coin_type").then(response => {
       this.coinTypeOptions = response.data;
     });
+    this.getDicts("on_off").then(response => {
+      this.onOffOptions = response.data;
+    });
   },
   methods: {
-    /** 查询账户管理列表 */
+    /** 查询矿池配置列表 */
     getList() {
       this.loading = true;
-      listAccount(this.queryParams).then(response => {
-        this.accountList = response.rows;
+      listBuyingConfig(this.queryParams).then(response => {
+        this.buyingConfigList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
     },
-    // 账户类型 0基础账户字典翻译
-    accountTypeFormat(row, column) {
-      return this.selectDictLabel(this.accountTypeOptions, row.accountType);
-    },
     // 币种字典翻译
     coinTypeFormat(row, column) {
       return this.selectDictLabel(this.coinTypeOptions, row.coinType);
+    },
+    // 开关 0关 1开字典翻译
+    onOffFormat(row, column) {
+      return this.selectDictLabel(this.onOffOptions, row.onOff);
     },
     // 取消按钮
     cancel() {
@@ -253,11 +256,14 @@ export default {
     reset() {
       this.form = {
         id: undefined,
-        userId: undefined,
-        availbalance: undefined,
-        frozenblance: undefined,
-        accountType: undefined,
         coinType: undefined,
+        onOff: undefined,
+        nowPrice: undefined,
+        circulation: undefined,
+        days: undefined,
+        buyPrice: undefined,
+        getNumber: undefined,
+        buyCount: undefined,
         createTime: undefined,
         updateTime: undefined
       };
@@ -283,16 +289,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加账户管理";
+      this.title = "添加矿池配置";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getAccount(id).then(response => {
+      getBuyingConfig(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改账户管理";
+        this.title = "修改矿池配置";
       });
     },
     /** 提交按钮 */
@@ -300,7 +306,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != undefined) {
-            updateAccount(this.form).then(response => {
+            updateBuyingConfig(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("修改成功");
                 this.open = false;
@@ -310,7 +316,7 @@ export default {
               }
             });
           } else {
-            addAccount(this.form).then(response => {
+            addBuyingConfig(this.form).then(response => {
               if (response.code === 200) {
                 this.msgSuccess("新增成功");
                 this.open = false;
@@ -326,12 +332,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$confirm('是否确认删除账户管理编号为"' + ids + '"的数据项?', "警告", {
+      this.$confirm('是否确认删除矿池配置编号为"' + ids + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delAccount(ids);
+          return delBuyingConfig(ids);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
@@ -340,12 +346,12 @@ export default {
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;
-      this.$confirm('是否确认导出所有账户管理数据项?', "警告", {
+      this.$confirm('是否确认导出所有矿池配置数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return exportAccount(queryParams);
+          return exportBuyingConfig(queryParams);
         }).then(response => {
           this.download(response.msg);
         }).catch(function() {});

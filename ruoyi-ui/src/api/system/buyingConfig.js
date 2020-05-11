@@ -1,52 +1,52 @@
 import request from '@/utils/request'
 
 // 查询矿池配置列表
-export function listConfig(query) {
+export function listBuyingConfig(query) {
   return request({
-    url: '/system/config/list',
+    url: '/system/buyingConfig/list',
     method: 'get',
     params: query
   })
 }
 
 // 查询矿池配置详细
-export function getConfig(id) {
+export function getBuyingConfig(id) {
   return request({
-    url: '/system/config/' + id,
+    url: '/system/buyingConfig/' + id,
     method: 'get'
   })
 }
 
 // 新增矿池配置
-export function addConfig(data) {
+export function addBuyingConfig(data) {
   return request({
-    url: '/system/config',
+    url: '/system/buyingConfig',
     method: 'post',
     data: data
   })
 }
 
 // 修改矿池配置
-export function updateConfig(data) {
+export function updateBuyingConfig(data) {
   return request({
-    url: '/system/config',
+    url: '/system/buyingConfig',
     method: 'put',
     data: data
   })
 }
 
 // 删除矿池配置
-export function delConfig(id) {
+export function delBuyingConfig(id) {
   return request({
-    url: '/system/config/' + id,
+    url: '/system/buyingConfig/' + id,
     method: 'delete'
   })
 }
 
 // 导出矿池配置
-export function exportConfig(query) {
+export function exportBuyingConfig(query) {
   return request({
-    url: '/system/config/export',
+    url: '/system/buyingConfig/export',
     method: 'get',
     params: query
   })
