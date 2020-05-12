@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.C2cManageMapper">
+    
+    <resultMap type="C2cManage" id="C2cManageResult">
+        <result property="id"    column="id"    />
+        <result property="coinType"    column="coin_type"    />
+        <result property="price"    column="price"    />
+        <result property="onOff"    column="on_off"    />
+        <result property="type"    column="type"    />
+        <result property="totalMin"    column="total_min"    />
+        <result property="totalMax"    column="total_max"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectC2cManageVo">
+        select id, coin_type, price, on_off, type, total_min, total_max, create_time, update_time from c2c_manage
+    </sql>
+
+    <select id="selectC2cManageList" parameterType="C2cManage" resultMap="C2cManageResult">
+        <include refid="selectC2cManageVo"/>
+        <where>  
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="onOff != null "> and on_off = #{onOff}</if>
+            <if test="type != null "> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectC2cManageById" parameterType="Long" resultMap="C2cManageResult">
+        <include refid="selectC2cManageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertC2cManage" parameterType="C2cManage" useGeneratedKeys="true" keyProperty="id">
+        insert into c2c_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coinType != null ">coin_type,</if>
+            <if test="price != null ">price,</if>
+            <if test="onOff != null ">on_off,</if>
+            <if test="type != null ">type,</if>
+            <if test="totalMin != null ">total_min,</if>
+            <if test="totalMax != null ">total_max,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coinType != null ">#{coinType},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="onOff != null ">#{onOff},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="totalMin != null ">#{totalMin},</if>
+            <if test="totalMax != null ">#{totalMax},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateC2cManage" parameterType="C2cManage">
+        update c2c_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="coinType != null ">coin_type = #{coinType},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="onOff != null ">on_off = #{onOff},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="totalMin != null ">total_min = #{totalMin},</if>
+            <if test="totalMax != null ">total_max = #{totalMax},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteC2cManageById" parameterType="Long">
+        delete from c2c_manage where id = #{id}
+    </delete>
+
+    <delete id="deleteC2cManageByIds" parameterType="String">
+        delete from c2c_manage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
