@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.FlowMapper">
+    
+    <resultMap type="Flow" id="FlowResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="operType"    column="oper_type"    />
+        <result property="relateId"    column="relate_id"    />
+        <result property="flows"    column="flows"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="coinType"    column="coin_type"    />
+        <result property="operId"    column="oper_id"    />
+        <result property="amount"    column="amount"    />
+        <result property="resultAmount"    column="result_amount"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectFlowVo">
+        select id, user_id, oper_type, relate_id, flows, account_type, coin_type, oper_id, amount, result_amount, create_time, update_time from flow
+    </sql>
+
+    <select id="selectFlowList" parameterType="Flow" resultMap="FlowResult">
+        <include refid="selectFlowVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="operType != null  and operType != ''"> and oper_type = #{operType}</if>
+            <if test="relateId != null "> and relate_id = #{relateId}</if>
+            <if test="flows != null "> and flows = #{flows}</if>
+            <if test="accountType != null "> and account_type = #{accountType}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlowById" parameterType="Long" resultMap="FlowResult">
+        <include refid="selectFlowVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFlow" parameterType="Flow" useGeneratedKeys="true" keyProperty="id">
+        insert into flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="operType != null  and operType != ''">oper_type,</if>
+            <if test="relateId != null ">relate_id,</if>
+            <if test="flows != null ">flows,</if>
+            <if test="accountType != null ">account_type,</if>
+            <if test="coinType != null ">coin_type,</if>
+            <if test="operId != null ">oper_id,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="resultAmount != null  and resultAmount != ''">result_amount,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="operType != null  and operType != ''">#{operType},</if>
+            <if test="relateId != null ">#{relateId},</if>
+            <if test="flows != null ">#{flows},</if>
+            <if test="accountType != null ">#{accountType},</if>
+            <if test="coinType != null ">#{coinType},</if>
+            <if test="operId != null ">#{operId},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="resultAmount != null  and resultAmount != ''">#{resultAmount},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlow" parameterType="Flow">
+        update flow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="operType != null  and operType != ''">oper_type = #{operType},</if>
+            <if test="relateId != null ">relate_id = #{relateId},</if>
+            <if test="flows != null ">flows = #{flows},</if>
+            <if test="accountType != null ">account_type = #{accountType},</if>
+            <if test="coinType != null ">coin_type = #{coinType},</if>
+            <if test="operId != null ">oper_id = #{operId},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="resultAmount != null  and resultAmount != ''">result_amount = #{resultAmount},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFlowById" parameterType="Long">
+        delete from flow where id = #{id}
+    </delete>
+
+    <delete id="deleteFlowByIds" parameterType="String">
+        delete from flow where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
