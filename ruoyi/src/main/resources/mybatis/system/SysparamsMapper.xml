@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysparamsMapper">
+    
+    <resultMap type="Sysparams" id="SysparamsResult">
+        <result property="id"    column="id"    />
+        <result property="keyName"    column="key_name"    />
+        <result property="keyVal"    column="key_val"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysparamsVo">
+        select id, key_name, key_val, remark, create_time, update_time from sysparams
+    </sql>
+
+    <select id="selectSysparamsList" parameterType="Sysparams" resultMap="SysparamsResult">
+        <include refid="selectSysparamsVo"/>
+        <where>  
+            <if test="keyName != null  and keyName != ''"> and key_name like concat('%', #{keyName}, '%')</if>
+            <if test="remark != null  and remark != ''"> and remark like concat('%', #{remark}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysparamsById" parameterType="Long" resultMap="SysparamsResult">
+        <include refid="selectSysparamsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysparams" parameterType="Sysparams" useGeneratedKeys="true" keyProperty="id">
+        insert into sysparams
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="keyName != null  and keyName != ''">key_name,</if>
+            <if test="keyVal != null  and keyVal != ''">key_val,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="keyName != null  and keyName != ''">#{keyName},</if>
+            <if test="keyVal != null  and keyVal != ''">#{keyVal},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysparams" parameterType="Sysparams">
+        update sysparams
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="keyName != null  and keyName != ''">key_name = #{keyName},</if>
+            <if test="keyVal != null  and keyVal != ''">key_val = #{keyVal},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysparamsById" parameterType="Long">
+        delete from sysparams where id = #{id}
+    </delete>
+
+    <delete id="deleteSysparamsByIds" parameterType="String">
+        delete from sysparams where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
