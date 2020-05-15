@@ -35,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="role != null "> and role = #{role}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
         </where>
+        order by id desc
     </select>
     
     <select id="selectUsersById" parameterType="Long" resultMap="UsersResult">
