@@ -32,7 +32,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectWithdrawVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectWithdrawLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, user_id, coin_type coinType, amount, b.state, b.remark, b.create_time createTime, b.update_time updateTime FROM withdraw b
+
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+        order by b.id desc
+    </select>
+
     <insert id="insertWithdraw" parameterType="Withdraw" useGeneratedKeys="true" keyProperty="id">
         insert into withdraw
         <trim prefix="(" suffix=")" suffixOverrides=",">

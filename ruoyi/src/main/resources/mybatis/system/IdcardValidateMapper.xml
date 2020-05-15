@@ -36,7 +36,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectIdcardValidateVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectIdcardValidateLists" resultType="java.util.Map">
+        SELECT b.id, u.phone,user_id, b.name, identificationnumber, b.state, task_id, b.type, b.create_time, b.update_time FROM idcard_validate b
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="identificationnumber != null  and identificationnumber != ''"> and identificationnumber = #{identificationnumber}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="taskId != null  and taskId != ''"> and task_id = #{taskId}</if>
+            <if test="type != null "> and type = #{type}</if>
+        </where>
+        order by b.id desc
+    </select>
+
     <insert id="insertIdcardValidate" parameterType="IdcardValidate" useGeneratedKeys="true" keyProperty="id">
         insert into idcard_validate
         <trim prefix="(" suffix=")" suffixOverrides=",">

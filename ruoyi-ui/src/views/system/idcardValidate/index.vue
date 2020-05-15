@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="用户id" prop="userId">
+      <el-form-item label="手机号" prop="phone">
         <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户id"
+          v-model="queryParams.phone"
+          placeholder="请输入用户手机号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -37,15 +37,6 @@
             :value="dict.dictValue"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="taskid" prop="taskId">
-        <el-input
-          v-model="queryParams.taskId"
-          placeholder="请输入taskid"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
       </el-form-item>
       <el-form-item label="类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择类型" clearable size="small">
@@ -107,12 +98,16 @@
     <el-table v-loading="loading" :data="idcardValidateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="userId" />
+      <el-table-column label="用户手机号" align="center" prop="phone" />
       <el-table-column label="姓名" align="center" prop="name" />
       <el-table-column label="身份证号" align="center" prop="identificationnumber" />
       <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat" />
-      <el-table-column label="taskid" align="center" prop="taskId" />
       <el-table-column label="类型" align="center" prop="type" :formatter="typeFormat" />
+      <el-table-column label="创建时间" align="center" prop="create_time" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.create_time) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -132,7 +127,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -222,6 +217,7 @@ export default {
         state: undefined,
         taskId: undefined,
         type: undefined,
+        phone: undefined,
       },
       // 表单参数
       form: {},
@@ -297,7 +293,8 @@ export default {
         taskId: undefined,
         type: undefined,
         createTime: undefined,
-        updateTime: undefined
+        updateTime: undefined,
+        phone: undefined
       };
       this.resetForm("form");
     },

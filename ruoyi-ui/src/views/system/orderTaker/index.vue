@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="用户id" prop="userId">
+      <el-form-item label="手机号" prop="phone">
         <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户id"
+          v-model="queryParams.phone"
+          placeholder="请输入用户手机号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -97,7 +97,7 @@
 
     <el-table v-loading="loading" :data="orderTakerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="用户id" align="center" prop="userId" />
+      <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="类型" align="center" prop="type" :formatter="typeFormat" />
       <el-table-column label="币种" align="center" prop="coinType" :formatter="coinTypeFormat" />
       <el-table-column label="makerId" align="center" prop="makerUserId" />
@@ -251,6 +251,7 @@ export default {
         payId: undefined,
         orderNum: undefined,
         state: undefined,
+        phone: undefined,
       },
       // 表单参数
       form: {},
@@ -345,6 +346,7 @@ export default {
       this.form = {
         id: undefined,
         userId: undefined,
+        phone: undefined,
         type: undefined,
         coinType: undefined,
         makerUserId: undefined,

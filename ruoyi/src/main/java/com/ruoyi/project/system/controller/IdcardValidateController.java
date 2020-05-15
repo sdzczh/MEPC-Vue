@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +41,16 @@ public class IdcardValidateController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:idcardValidate:list')")
     @GetMapping("/list")
-    public TableDataInfo list(IdcardValidate idcardValidate)
+    public TableDataInfo list(IdcardValidate idcardValidate, String phone)
     {
+        Map<String, Object> param = new HashMap<>();
+        param.put("phone", phone);
+        param.put("name", idcardValidate.getName());
+        param.put("identificationnumber", idcardValidate.getIdentificationnumber());
+        param.put("state", idcardValidate.getState());
+        param.put("type", idcardValidate.getType());
         startPage();
-        List<IdcardValidate> list = idcardValidateService.selectIdcardValidateList(idcardValidate);
+        List<Map<String, Object>> list = idcardValidateService.selectIdcardValidateLists(param);
         return getDataTable(list);
     }
 

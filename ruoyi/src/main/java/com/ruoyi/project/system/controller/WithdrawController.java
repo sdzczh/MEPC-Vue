@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +41,14 @@ public class WithdrawController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:withdraw:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Withdraw withdraw)
+    public TableDataInfo list(Withdraw withdraw, String phone)
     {
+        Map<String, Object> param = new HashMap<>();
+        param.put("phone", phone);
+        param.put("coinType", withdraw.getCoinType());
+        param.put("state", withdraw.getState());
         startPage();
-        List<Withdraw> list = withdrawService.selectWithdrawList(withdraw);
+        List<Map<String, Object>> list = withdrawService.selectWithdrawLists(param);
         return getDataTable(list);
     }
 

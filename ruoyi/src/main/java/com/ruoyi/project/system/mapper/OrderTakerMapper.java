@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.system.domain.OrderTaker;
 
 /**
@@ -58,4 +60,6 @@ public interface OrderTakerMapper
      * @return 结果
      */
     public int deleteOrderTakerByIds(Long[] ids);
+
+    List<Map<String, Object>> selectOrderTakerLists(Map<String, Object> param);
 }

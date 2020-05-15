@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="用户id" prop="userId">
+      <el-form-item label="手机号" prop="phone">
         <el-input
           v-model="queryParams.userId"
-          placeholder="请输入用户id"
+          placeholder="请输入手机号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -80,7 +80,7 @@
     <el-table v-loading="loading" :data="withdrawList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="userId" />
+      <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="币种" align="center" prop="coinType" :formatter="coinTypeFormat" />
       <el-table-column label="提现金额" align="center" prop="amount" />
       <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat" />
@@ -109,7 +109,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -190,6 +190,7 @@ export default {
         userId: undefined,
         coinType: undefined,
         state: undefined,
+        phone: undefined,
       },
       // 表单参数
       form: {},
@@ -257,6 +258,7 @@ export default {
         id: undefined,
         userId: undefined,
         coinType: undefined,
+        phone: undefined,
         amount: undefined,
         state: undefined,
         remark: undefined,

@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +41,16 @@ public class OrderTakerController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:orderTaker:list')")
     @GetMapping("/list")
-    public TableDataInfo list(OrderTaker orderTaker)
+    public TableDataInfo list(OrderTaker orderTaker, String phone)
     {
+        Map<String, Object> param = new HashMap<>();
+        param.put("phone", phone);
+        param.put("type", orderTaker.getType());
+        param.put("coinType", orderTaker.getCoinType());
+        param.put("orderNum", orderTaker.getOrderNum());
+        param.put("state", orderTaker.getState());
         startPage();
-        List<OrderTaker> list = orderTakerService.selectOrderTakerList(orderTaker);
+        List<Map<String, Object>> list = orderTakerService.selectOrderTakerLists(param);
         return getDataTable(list);
     }
 

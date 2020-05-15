@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,6 +82,11 @@ public class OrderTakerServiceImpl implements IOrderTakerService
     public int deleteOrderTakerByIds(Long[] ids)
     {
         return orderTakerMapper.deleteOrderTakerByIds(ids);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectOrderTakerLists(Map<String, Object> param) {
+        return orderTakerMapper.selectOrderTakerLists(param);
     }
 
     /**

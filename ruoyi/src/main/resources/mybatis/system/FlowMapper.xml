@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT b.id, u.phone, user_id, oper_type, relate_id, flows, account_type accountType, coin_type coinType, oper_id, amount, result_amount, b.create_time, b.update_time FROM flow b
         LEFT JOIN users u ON u.id = b.user_id        <where>
             <if test="id != null "> and b.id = #{id}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
             <if test="operType != null  and operType != ''"> and oper_type = #{operType}</if>
             <if test="relateId != null "> and relate_id = #{relateId}</if>
             <if test="flows != null "> and flows = #{flows}</if>

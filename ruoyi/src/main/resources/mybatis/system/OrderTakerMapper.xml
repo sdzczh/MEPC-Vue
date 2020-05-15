@@ -43,7 +43,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectOrderTakerVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectOrderTakerLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, user_id, b.type, b.coin_type coinType, maker_user_id makerUserId, maker_id makerId, price, amount, total, pay_id payId, order_num orderNum, b.state, inactive_time inactiveTime, remark, b.create_time createTime, b.update_time updateTime FROM order_taker b
+
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="payId != null "> and pay_id = #{payId}</if>
+            <if test="orderNum != null  and orderNum != ''"> and order_num like concat('%', #{orderNum}, '%')</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+        order by b.id desc
+    </select>
+
     <insert id="insertOrderTaker" parameterType="OrderTaker" useGeneratedKeys="true" keyProperty="id">
         insert into order_taker
         <trim prefix="(" suffix=")" suffixOverrides=",">

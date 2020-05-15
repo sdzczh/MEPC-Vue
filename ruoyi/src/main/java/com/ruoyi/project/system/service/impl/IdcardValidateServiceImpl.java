@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,11 @@ public class IdcardValidateServiceImpl implements IIdcardValidateService
     public int deleteIdcardValidateById(Long id)
     {
         return idcardValidateMapper.deleteIdcardValidateById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectIdcardValidateLists(Map<String, Object> param) {
+        return idcardValidateMapper.selectIdcardValidateLists(param);
+
     }
 }
