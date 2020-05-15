@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="手机号" prop="phone">
         <el-input
-          v-model="queryParams.userId"
+          v-model="queryParams.phone"
           placeholder="请输入手机号"
           clearable
           size="small"
