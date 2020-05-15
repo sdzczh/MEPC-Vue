@@ -146,7 +146,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -266,38 +266,17 @@ export default {
         phone: [
           { required: true, message: "手机号不能为空", trigger: "blur" }
         ],
-        password: [
-          { required: true, message: "密码不能为空", trigger: "blur" }
-        ],
-        orderPwd: [
-          { required: true, message: "交易密码不能为空", trigger: "blur" }
-        ],
         uuid: [
           { required: true, message: "邀请码不能为空", trigger: "blur" }
         ],
-        referId: [
-          { required: true, message: "推荐人邀请码不能为空", trigger: "blur" }
-        ],
         state: [
           { required: true, message: "状态不能为空", trigger: "blur" }
-        ],
-        token: [
-          { required: true, message: "token不能为空", trigger: "blur" }
-        ],
-        secretkey: [
-          { required: true, message: "secretkey不能为空", trigger: "blur" }
         ],
         idStatus: [
           { required: true, message: "实名状态 不能为空", trigger: "blur" }
         ],
         role: [
           { required: true, message: "用户身份不能为空", trigger: "blur" }
-        ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
-        ],
-        updateTime: [
-          { required: true, message: "修改时间不能为空", trigger: "blur" }
         ]
       }
     };

@@ -1,8 +1,12 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.constant.RedisKey;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.system.mapper.SysparamsMapper;
 import com.ruoyi.project.system.domain.Sysparams;
@@ -19,6 +23,8 @@ public class SysparamsServiceImpl implements ISysparamsService
 {
     @Autowired
     private SysparamsMapper sysparamsMapper;
+    @Autowired
+    private RedisTemplate<String, String> redis;
 
     /**
      * 查询系统参数配置
@@ -66,6 +72,8 @@ public class SysparamsServiceImpl implements ISysparamsService
     @Override
     public int updateSysparams(Sysparams sysparams)
     {
+        String key = String.format(RedisKey.SYSTEM_PARAM, sysparams.getKeyName());
+        RedisUtil.addStringObj(redis, key, sysparams);
         sysparams.setUpdateTime(DateUtils.getNowDate());
         return sysparamsMapper.updateSysparams(sysparams);
     }
@@ -79,6 +87,11 @@ public class SysparamsServiceImpl implements ISysparamsService
     @Override
     public int deleteSysparamsByIds(Long[] ids)
     {
+        for(Long id : ids){
+            Sysparams sysparams = sysparamsMapper.selectSysparamsById(id);
+            String key = String.format(RedisKey.SYSTEM_PARAM, sysparams.getKeyName());
+            RedisUtil.deleteKey(redis, key);
+        }
         return sysparamsMapper.deleteSysparamsByIds(ids);
     }
 
@@ -91,6 +104,9 @@ public class SysparamsServiceImpl implements ISysparamsService
     @Override
     public int deleteSysparamsById(Long id)
     {
+        Sysparams sysparams = sysparamsMapper.selectSysparamsById(id);
+        String key = String.format(RedisKey.SYSTEM_PARAM, sysparams.getKeyName());
+        RedisUtil.deleteKey(redis, key);
         return sysparamsMapper.deleteSysparamsById(id);
     }
 }
