@@ -10,10 +10,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户id" prop="userId">
+      <el-form-item label="手机号" prop="phone">
         <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户id"
+          v-model="queryParams.phone"
+          placeholder="请输入用户手机号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -23,15 +23,6 @@
         <el-input
           v-model="queryParams.operType"
           placeholder="请输入操作类型"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="关联id" prop="relateId">
-        <el-input
-          v-model="queryParams.relateId"
-          placeholder="请输入关联id"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -117,19 +108,19 @@
     <el-table v-loading="loading" :data="flowList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="userId" />
-      <el-table-column label="操作类型" align="center" prop="operType" />
-      <el-table-column label="关联id" align="center" prop="relateId" />
+      <el-table-column label="用户手机号" align="center" prop="phone" />
+      <el-table-column label="操作类型" align="center" prop="oper_type" />
+      <el-table-column label="关联id" align="center" prop="relate_id" />
       <el-table-column label="资金流向" align="center" prop="flows" :formatter="flowsFormat" />
       <el-table-column label="账户类型" align="center" prop="accountType" :formatter="accountTypeFormat" />
       <el-table-column label="币种" align="center" prop="coinType" :formatter="coinTypeFormat" />
-      <el-table-column label="操作人id" align="center" prop="operId" />
+      <el-table-column label="操作人id" align="center" prop="oper_id" />
       <el-table-column label="金额" align="center" prop="amount" />
-      <el-table-column label="操作后金额" align="center" prop="resultAmount" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column label="操作后金额" align="center" prop="result_amount" />
+      <el-table-column label="创建时间" align="center" prop="create_time" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
-        </template>
+        <span>{{ parseTime(scope.row.create_time) }}</span>
+      </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -150,7 +141,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -259,6 +250,7 @@ export default {
         flows: undefined,
         accountType: undefined,
         coinType: undefined,
+        phone: undefined,
       },
       // 表单参数
       form: {},
@@ -350,7 +342,8 @@ export default {
         amount: undefined,
         resultAmount: undefined,
         createTime: undefined,
-        updateTime: undefined
+        updateTime: undefined,
+        phone: undefined
       };
       this.resetForm("form");
     },

@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +43,7 @@ public class AccountController extends BaseController
     public TableDataInfo list(Account account)
     {
         startPage();
-        List<Account> list = accountService.selectAccountList(account);
+        List<Map<String, Object>> list = accountService.selectAccountLists(account);
         return getDataTable(list);
     }
 

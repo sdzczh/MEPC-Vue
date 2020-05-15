@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.system.domain.BindInfo;
 
 /**
@@ -58,4 +60,6 @@ public interface IBindInfoService
      * @return 结果
      */
     public int deleteBindInfoById(Long id);
+
+    List<Map<String, Object>> selectBindInfoLists(String phone);
 }

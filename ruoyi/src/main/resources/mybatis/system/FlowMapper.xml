@@ -40,7 +40,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFlowVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectFlowLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, user_id, oper_type, relate_id, flows, account_type accountType, coin_type coinType, oper_id, amount, result_amount, b.create_time, b.update_time FROM flow b
+        LEFT JOIN users u ON u.id = b.user_id        <where>
+            <if test="id != null "> and b.id = #{id}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="operType != null  and operType != ''"> and oper_type = #{operType}</if>
+            <if test="relateId != null "> and relate_id = #{relateId}</if>
+            <if test="flows != null "> and flows = #{flows}</if>
+            <if test="accountType != null "> and account_type = #{accountType}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+        </where>
+        order by b.id desc
+    </select>
+
     <insert id="insertFlow" parameterType="Flow" useGeneratedKeys="true" keyProperty="id">
         insert into flow
         <trim prefix="(" suffix=")" suffixOverrides=",">

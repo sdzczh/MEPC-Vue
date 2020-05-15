@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,17 @@ public class AccountServiceImpl implements IAccountService
     public List<Account> selectAccountList(Account account)
     {
         return accountMapper.selectAccountList(account);
+    }
+    /**
+     * 查询账户管理列表
+     *
+     * @param account 账户管理
+     * @return 账户管理
+     */
+    @Override
+    public List<Map<String, Object>> selectAccountLists(Account account)
+    {
+        return accountMapper.selectAccountLists(account);
     }
 
     /**

@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.system.domain.BuyingRecord;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 矿池记录Mapper接口
@@ -58,4 +61,6 @@ public interface BuyingRecordMapper
      * @return 结果
      */
     public int deleteBuyingRecordByIds(Long[] ids);
+
+    List<Map<String, Object>> selectBuyingRecordLists(@Param("phone") String phone);
 }

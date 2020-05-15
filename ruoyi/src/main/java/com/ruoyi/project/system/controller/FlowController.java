@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +41,17 @@ public class FlowController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:flow:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Flow flow)
+    public TableDataInfo list(Flow flow, String phone)
     {
+        Map<String, Object> param = new HashMap();
+        param.put("phone", phone);
+        param.put("id", flow.getId());
+        param.put("operType", flow.getOperType());
+        param.put("flows", flow.getFlows());
+        param.put("accountType", flow.getAccountType());
+        param.put("coinType", flow.getCoinType());
         startPage();
-        List<Flow> list = flowService.selectFlowList(flow);
+        List<Map<String, Object>> list = flowService.selectFlowLists(param);
         return getDataTable(list);
     }
 

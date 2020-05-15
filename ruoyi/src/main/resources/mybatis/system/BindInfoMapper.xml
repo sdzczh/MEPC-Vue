@@ -30,6 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
         </where>
     </select>
+    <select id="selectBindInfoLists" parameterType="string" resultType="map">
+        SELECT b.id, user_id, u.phone, b.type, account, NAME, img_url, bank_name, branch_name, b.state, b.create_time, b.update_time FROM bind_info b
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+        </where>
+    </select>
     
     <select id="selectBindInfoById" parameterType="Long" resultMap="BindInfoResult">
         <include refid="selectBindInfoVo"/>

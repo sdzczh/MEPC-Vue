@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.system.domain.Flow;
 
 /**
@@ -58,4 +60,6 @@ public interface FlowMapper
      * @return 结果
      */
     public int deleteFlowByIds(Long[] ids);
+
+    List<Map<String, Object>> selectFlowLists(Map<String, Object> param);
 }

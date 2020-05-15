@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +40,10 @@ public class BuyingRecordController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:buyingRecord:list')")
     @GetMapping("/list")
-    public TableDataInfo list(BuyingRecord buyingRecord)
+    public TableDataInfo list(String phone)
     {
         startPage();
-        List<BuyingRecord> list = buyingRecordService.selectBuyingRecordList(buyingRecord);
+        List<Map<String, Object>> list = buyingRecordService.selectBuyingRecordLists(phone);
         return getDataTable(list);
     }
 

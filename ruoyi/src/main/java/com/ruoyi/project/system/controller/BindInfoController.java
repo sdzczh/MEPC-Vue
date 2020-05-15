@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +40,10 @@ public class BindInfoController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:info:list')")
     @GetMapping("/list")
-    public TableDataInfo list(BindInfo bindInfo)
+    public TableDataInfo list(String phone)
     {
         startPage();
-        List<BindInfo> list = bindInfoService.selectBindInfoList(bindInfo);
+        List<Map<String, Object>> list = bindInfoService.selectBindInfoLists(phone);
         return getDataTable(list);
     }
 

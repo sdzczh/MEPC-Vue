@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,10 @@ public class FlowServiceImpl implements IFlowService
     public int deleteFlowById(Long id)
     {
         return flowMapper.deleteFlowById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectFlowLists(Map<String, Object> param) {
+        return flowMapper.selectFlowLists(param);
     }
 }

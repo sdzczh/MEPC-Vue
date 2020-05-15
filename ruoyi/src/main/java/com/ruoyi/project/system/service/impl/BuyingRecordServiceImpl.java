@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,10 @@ public class BuyingRecordServiceImpl implements IBuyingRecordService
     public int deleteBuyingRecordById(Long id)
     {
         return buyingRecordMapper.deleteBuyingRecordById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectBuyingRecordLists(String phone) {
+        return buyingRecordMapper.selectBuyingRecordLists(phone);
     }
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service.impl;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,5 +94,11 @@ public class BindInfoServiceImpl implements IBindInfoService
     public int deleteBindInfoById(Long id)
     {
         return bindInfoMapper.deleteBindInfoById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectBindInfoLists(String phone) {
+        return bindInfoMapper.selectBindInfoLists(phone);
+
     }
 }

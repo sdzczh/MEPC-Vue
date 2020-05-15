@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.project.system.domain.Account;
 
 /**
@@ -58,4 +60,6 @@ public interface IAccountService
      * @return 结果
      */
     public int deleteAccountById(Long id);
+
+    List<Map<String, Object>> selectAccountLists(Account account);
 }

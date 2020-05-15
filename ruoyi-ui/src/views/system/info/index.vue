@@ -1,29 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="类型" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择类型" clearable size="small">
-          <el-option
-            v-for="dict in typeOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="名称" prop="name">
+      <el-form-item label="手机号" prop="phone">
         <el-input
-          v-model="queryParams.name"
-          placeholder="请输入名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="银行名称" prop="bankName">
-        <el-input
-          v-model="queryParams.bankName"
-          placeholder="请输入银行名称"
+          v-model="queryParams.phone"
+          placeholder="请输入手机号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -79,13 +60,13 @@
     <el-table v-loading="loading" :data="infoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="用户id" align="center" prop="userId" />
+      <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="类型" align="center" prop="type" :formatter="typeFormat" />
       <el-table-column label="账户" align="center" prop="account" />
       <el-table-column label="名称" align="center" prop="name" />
-      <el-table-column label="图片地址" align="center" prop="imgUrl" />
-      <el-table-column label="银行名称" align="center" prop="bankName" />
-      <el-table-column label="开户行" align="center" prop="branchName" />
+      <el-table-column label="图片地址" align="center" prop="img_url" />
+      <el-table-column label="银行名称" align="center" prop="bank_name" />
+      <el-table-column label="开户行" align="center" prop="branch_name" />
       <el-table-column label="状态" align="center" prop="state" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -106,7 +87,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -190,6 +171,7 @@ export default {
         type: undefined,
         name: undefined,
         bankName: undefined,
+        phone: undefined,
       },
       // 表单参数
       form: {},
@@ -258,6 +240,7 @@ export default {
       this.form = {
         id: undefined,
         userId: undefined,
+        phone: undefined,
         type: undefined,
         account: undefined,
         name: undefined,

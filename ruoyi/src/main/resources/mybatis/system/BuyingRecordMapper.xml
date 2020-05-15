@@ -32,7 +32,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBuyingRecordVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectBuyingRecordLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, buying_id, user_id, buy_number, provides, surplus, end_time, b.create_time, b.update_time FROM buying_record b
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+        </where>
+        order by b.id desc
+    </select>
+
     <insert id="insertBuyingRecord" parameterType="BuyingRecord" useGeneratedKeys="true" keyProperty="id">
         insert into buying_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
