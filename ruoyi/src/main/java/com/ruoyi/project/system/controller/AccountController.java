@@ -1,5 +1,6 @@
 package com.ruoyi.project.system.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +41,14 @@ public class AccountController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('system:account:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Account account)
+    public TableDataInfo list(Account account, String phone)
     {
         startPage();
-        List<Map<String, Object>> list = accountService.selectAccountLists(account);
+        Map<String, Object> param = new HashMap<>();
+        param.put("phone", phone);
+        param.put("accountType", account.getAccountType());
+        param.put("coinType", account.getCoinType());
+        List<Map<String, Object>> list = accountService.selectAccountLists(param);
         return getDataTable(list);
     }
 

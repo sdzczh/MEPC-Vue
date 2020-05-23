@@ -10,6 +10,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="手机号" prop="phone">
+        <el-input
+          v-model="queryParams.phone"
+          placeholder="请输入手机号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="账户类型" prop="accountType">
         <el-select v-model="queryParams.accountType" placeholder="请选择账户类型" clearable size="small">
           <el-option
@@ -186,6 +195,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         id: undefined,
+        phone: undefined,
         accountType: undefined,
         coinType: undefined,
       },

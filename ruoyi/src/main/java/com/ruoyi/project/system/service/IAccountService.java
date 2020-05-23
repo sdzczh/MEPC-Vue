@@ -61,5 +61,5 @@ public interface IAccountService
      */
     public int deleteAccountById(Long id);
 
-    List<Map<String, Object>> selectAccountLists(Account account);
+    List<Map<String, Object>> selectAccountLists(Map<String, Object> param);
 }

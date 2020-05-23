@@ -46,7 +46,7 @@ public class AsyncFactory
                 String address = AddressUtils.getRealAddressByIP(ip);
                 StringBuilder s = new StringBuilder();
                 s.append(LogUtils.getBlock(ip));
-                s.append(address);
+                s.append("x");
                 s.append(LogUtils.getBlock(username));
                 s.append(LogUtils.getBlock(status));
                 s.append(LogUtils.getBlock(message));

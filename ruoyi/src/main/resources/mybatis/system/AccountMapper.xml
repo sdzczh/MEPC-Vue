@@ -27,10 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="coinType != null "> and coin_type = #{coinType}</if>
         </where>
     </select>
-    <select id="selectAccountLists" parameterType="Account"  resultType="map">
+    <select id="selectAccountLists" resultType="map">
         SELECT a.id, u.phone, user_id userId, availbalance, frozenblance, account_type accountType, coin_type coinType, a.create_time createTime, a.update_time updateTime FROM account a LEFT JOIN users u ON u.id = a.user_id
         <where>
-            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
             <if test="accountType != null "> and account_type = #{accountType}</if>
             <if test="coinType != null "> and coin_type = #{coinType}</if>
         </where>

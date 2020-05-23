@@ -52,7 +52,7 @@ public class AccountServiceImpl implements IAccountService
      * @return 账户管理
      */
     @Override
-    public List<Map<String, Object>> selectAccountLists(Account account)
+    public List<Map<String, Object>> selectAccountLists(Map<String, Object> account)
     {
         return accountMapper.selectAccountLists(account);
     }

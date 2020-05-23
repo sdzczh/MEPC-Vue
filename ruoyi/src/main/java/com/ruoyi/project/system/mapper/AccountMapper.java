@@ -61,5 +61,5 @@ public interface AccountMapper
      */
     public int deleteAccountByIds(Long[] ids);
 
-    List<Map<String, Object>> selectAccountLists(Account account);
+    List<Map<String, Object>> selectAccountLists(Map<String, Object> account);
 }
