@@ -43,9 +43,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="identificationnumber != null  and identificationnumber != ''"> and identificationnumber = #{identificationnumber}</if>
-            <if test="state != null "> and state = #{state}</if>
+            <if test="state != null "> and b.state = #{state}</if>
             <if test="taskId != null  and taskId != ''"> and task_id = #{taskId}</if>
-            <if test="type != null "> and type = #{type}</if>
+            <if test="type != null "> and b.type = #{type}</if>
         </where>
         order by b.id desc
     </select>
