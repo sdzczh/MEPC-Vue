@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.BuyingRecordMapper">
+    
+    <resultMap type="BuyingRecord" id="BuyingRecordResult">
+        <result property="id"    column="id"    />
+        <result property="buyingId"    column="buying_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="buyNumber"    column="buy_number"    />
+        <result property="provides"    column="provides"    />
+        <result property="surplus"    column="surplus"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectBuyingRecordVo">
+        select id, buying_id, user_id, buy_number, provides, surplus, end_time, create_time, update_time from buying_record
+    </sql>
+
+    <select id="selectBuyingRecordList" parameterType="BuyingRecord" resultMap="BuyingRecordResult">
+        <include refid="selectBuyingRecordVo"/>
+        <where>  
+            <if test="buyingId != null "> and buying_id = #{buyingId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBuyingRecordById" parameterType="Long" resultMap="BuyingRecordResult">
+        <include refid="selectBuyingRecordVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectBuyingRecordLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, buying_id, user_id, buy_number, provides, surplus, end_time, b.create_time, b.update_time FROM buying_record b
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+        </where>
+        order by b.id desc
+    </select>
+
+    <insert id="insertBuyingRecord" parameterType="BuyingRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into buying_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buyingId != null ">buying_id,</if>
+            <if test="userId != null ">user_id,</if>
+            <if test="buyNumber != null ">buy_number,</if>
+            <if test="provides != null ">provides,</if>
+            <if test="surplus != null ">surplus,</if>
+            <if test="endTime != null  and endTime != ''">end_time,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buyingId != null ">#{buyingId},</if>
+            <if test="userId != null ">#{userId},</if>
+            <if test="buyNumber != null ">#{buyNumber},</if>
+            <if test="provides != null ">#{provides},</if>
+            <if test="surplus != null ">#{surplus},</if>
+            <if test="endTime != null  and endTime != ''">#{endTime},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBuyingRecord" parameterType="BuyingRecord">
+        update buying_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buyingId != null ">buying_id = #{buyingId},</if>
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="buyNumber != null ">buy_number = #{buyNumber},</if>
+            <if test="provides != null ">provides = #{provides},</if>
+            <if test="surplus != null ">surplus = #{surplus},</if>
+            <if test="endTime != null  and endTime != ''">end_time = #{endTime},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBuyingRecordById" parameterType="Long">
+        delete from buying_record where id = #{id}
+    </delete>
+
+    <delete id="deleteBuyingRecordByIds" parameterType="String">
+        delete from buying_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

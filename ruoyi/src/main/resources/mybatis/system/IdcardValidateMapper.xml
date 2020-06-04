@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.IdcardValidateMapper">
+    
+    <resultMap type="IdcardValidate" id="IdcardValidateResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="name"    column="name"    />
+        <result property="identificationnumber"    column="identificationnumber"    />
+        <result property="state"    column="state"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="type"    column="type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectIdcardValidateVo">
+        select id, user_id, name, identificationnumber, state, task_id, type, create_time, update_time from idcard_validate
+    </sql>
+
+    <select id="selectIdcardValidateList" parameterType="IdcardValidate" resultMap="IdcardValidateResult">
+        <include refid="selectIdcardValidateVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="identificationnumber != null  and identificationnumber != ''"> and identificationnumber = #{identificationnumber}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="taskId != null  and taskId != ''"> and task_id = #{taskId}</if>
+            <if test="type != null "> and type = #{type}</if>
+        </where>
+    </select>
+    
+    <select id="selectIdcardValidateById" parameterType="Long" resultMap="IdcardValidateResult">
+        <include refid="selectIdcardValidateVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectIdcardValidateLists" resultType="java.util.Map">
+        SELECT b.id, u.phone,user_id, b.name, identificationnumber, b.state, task_id, b.type, b.create_time, b.update_time FROM idcard_validate b
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="identificationnumber != null  and identificationnumber != ''"> and identificationnumber = #{identificationnumber}</if>
+            <if test="state != null "> and b.state = #{state}</if>
+            <if test="taskId != null  and taskId != ''"> and task_id = #{taskId}</if>
+            <if test="type != null "> and b.type = #{type}</if>
+        </where>
+        order by b.id desc
+    </select>
+
+    <insert id="insertIdcardValidate" parameterType="IdcardValidate" useGeneratedKeys="true" keyProperty="id">
+        insert into idcard_validate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="identificationnumber != null  and identificationnumber != ''">identificationnumber,</if>
+            <if test="state != null ">state,</if>
+            <if test="taskId != null  and taskId != ''">task_id,</if>
+            <if test="type != null ">type,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="identificationnumber != null  and identificationnumber != ''">#{identificationnumber},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="taskId != null  and taskId != ''">#{taskId},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIdcardValidate" parameterType="IdcardValidate">
+        update idcard_validate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="identificationnumber != null  and identificationnumber != ''">identificationnumber = #{identificationnumber},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="taskId != null  and taskId != ''">task_id = #{taskId},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteIdcardValidateById" parameterType="Long">
+        delete from idcard_validate where id = #{id}
+    </delete>
+
+    <delete id="deleteIdcardValidateByIds" parameterType="String">
+        delete from idcard_validate where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.AccountTransferMapper">
+    
+    <resultMap type="AccountTransfer" id="AccountTransferResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="toUserId"    column="to_user_id"    />
+        <result property="coinType"    column="coin_type"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="amount"    column="amount"    />
+        <result property="relatedid"    column="relatedid"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAccountTransferVo">
+        select id, user_id, to_user_id, coin_type, account_type, amount, relatedid, create_time, update_time from account_transfer
+    </sql>
+
+    <select id="selectAccountTransferList" parameterType="AccountTransfer" resultMap="AccountTransferResult">
+        <include refid="selectAccountTransferVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="toUserId != null "> and to_user_id = #{toUserId}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="accountType != null "> and account_type = #{accountType}</if>
+        </where>
+    </select>
+    
+    <select id="selectAccountTransferById" parameterType="Long" resultMap="AccountTransferResult">
+        <include refid="selectAccountTransferVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertAccountTransfer" parameterType="AccountTransfer" useGeneratedKeys="true" keyProperty="id">
+        insert into account_transfer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="toUserId != null ">to_user_id,</if>
+            <if test="coinType != null ">coin_type,</if>
+            <if test="accountType != null ">account_type,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="relatedid != null ">relatedid,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="toUserId != null ">#{toUserId},</if>
+            <if test="coinType != null ">#{coinType},</if>
+            <if test="accountType != null ">#{accountType},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="relatedid != null ">#{relatedid},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAccountTransfer" parameterType="AccountTransfer">
+        update account_transfer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="toUserId != null ">to_user_id = #{toUserId},</if>
+            <if test="coinType != null ">coin_type = #{coinType},</if>
+            <if test="accountType != null ">account_type = #{accountType},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="relatedid != null ">relatedid = #{relatedid},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAccountTransferById" parameterType="Long">
+        delete from account_transfer where id = #{id}
+    </delete>
+
+    <delete id="deleteAccountTransferByIds" parameterType="String">
+        delete from account_transfer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

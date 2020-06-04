@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.OrderTakerMapper">
+    
+    <resultMap type="OrderTaker" id="OrderTakerResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="type"    column="type"    />
+        <result property="coinType"    column="coin_type"    />
+        <result property="makerUserId"    column="maker_user_id"    />
+        <result property="makerId"    column="maker_id"    />
+        <result property="price"    column="price"    />
+        <result property="amount"    column="amount"    />
+        <result property="total"    column="total"    />
+        <result property="payId"    column="pay_id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="state"    column="state"    />
+        <result property="inactiveTime"    column="inactive_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectOrderTakerVo">
+        select id, user_id, type, coin_type, maker_user_id, maker_id, price, amount, total, pay_id, order_num, state, inactive_time, remark, create_time, update_time from order_taker
+    </sql>
+
+    <select id="selectOrderTakerList" parameterType="OrderTaker" resultMap="OrderTakerResult">
+        <include refid="selectOrderTakerVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="payId != null "> and pay_id = #{payId}</if>
+            <if test="orderNum != null  and orderNum != ''"> and order_num like concat('%', #{orderNum}, '%')</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderTakerById" parameterType="Long" resultMap="OrderTakerResult">
+        <include refid="selectOrderTakerVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectOrderTakerLists" resultType="java.util.Map">
+        SELECT b.id, u.phone, user_id, b.type, b.coin_type coinType, maker_user_id makerUserId, maker_id makerId, price, amount, total, pay_id payId, order_num orderNum, b.state, inactive_time inactiveTime, remark, b.create_time createTime, b.update_time updateTime FROM order_taker b
+
+        LEFT JOIN users u ON u.id = b.user_id
+        <where>
+            <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="coinType != null "> and coin_type = #{coinType}</if>
+            <if test="payId != null "> and pay_id = #{payId}</if>
+            <if test="orderNum != null  and orderNum != ''"> and order_num like concat('%', #{orderNum}, '%')</if>
+            <if test="state != null "> and state = #{state}</if>
+        </where>
+        order by b.id desc
+    </select>
+
+    <insert id="insertOrderTaker" parameterType="OrderTaker" useGeneratedKeys="true" keyProperty="id">
+        insert into order_taker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="type != null ">type,</if>
+            <if test="coinType != null ">coin_type,</if>
+            <if test="makerUserId != null ">maker_user_id,</if>
+            <if test="makerId != null ">maker_id,</if>
+            <if test="price != null ">price,</if>
+            <if test="amount != null ">amount,</if>
+            <if test="total != null ">total,</if>
+            <if test="payId != null ">pay_id,</if>
+            <if test="orderNum != null  and orderNum != ''">order_num,</if>
+            <if test="state != null ">state,</if>
+            <if test="inactiveTime != null ">inactive_time,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="coinType != null ">#{coinType},</if>
+            <if test="makerUserId != null ">#{makerUserId},</if>
+            <if test="makerId != null ">#{makerId},</if>
+            <if test="price != null ">#{price},</if>
+            <if test="amount != null ">#{amount},</if>
+            <if test="total != null ">#{total},</if>
+            <if test="payId != null ">#{payId},</if>
+            <if test="orderNum != null  and orderNum != ''">#{orderNum},</if>
+            <if test="state != null ">#{state},</if>
+            <if test="inactiveTime != null ">#{inactiveTime},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderTaker" parameterType="OrderTaker">
+        update order_taker
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="coinType != null ">coin_type = #{coinType},</if>
+            <if test="makerUserId != null ">maker_user_id = #{makerUserId},</if>
+            <if test="makerId != null ">maker_id = #{makerId},</if>
+            <if test="price != null ">price = #{price},</if>
+            <if test="amount != null ">amount = #{amount},</if>
+            <if test="total != null ">total = #{total},</if>
+            <if test="payId != null ">pay_id = #{payId},</if>
+            <if test="orderNum != null  and orderNum != ''">order_num = #{orderNum},</if>
+            <if test="state != null ">state = #{state},</if>
+            <if test="inactiveTime != null ">inactive_time = #{inactiveTime},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderTakerById" parameterType="Long">
+        delete from order_taker where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderTakerByIds" parameterType="String">
+        delete from order_taker where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
