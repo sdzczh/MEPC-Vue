@@ -90,11 +90,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="手机号" align="center" prop="phone" />
-      <el-table-column label="可用余额" align="center" prop="availbalance" >
-        <!--<template slot-scope="scope">
-          <span>{{ parseTime(scope.row.availbalance) }}</span>
-        </template>-->
-      </el-table-column>
+      <el-table-column label="可用余额" align="center" prop="availbalance" />
       <el-table-column label="冻结余额" align="center" prop="frozenblance" />
       <el-table-column label="账户类型" align="center" prop="accountType" :formatter="accountTypeFormat" />
       <el-table-column label="币种" align="center" prop="coinType" :formatter="coinTypeFormat" />
