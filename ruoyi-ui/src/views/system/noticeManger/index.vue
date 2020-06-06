@@ -103,22 +103,30 @@
     <!-- 添加或修改公告对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px">
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入标题" />
-        </el-form-item>
-        <el-form-item label="内容" prop="content">
-          <el-input v-model="form.content" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="类型">
-          <el-select v-model="form.type" placeholder="请选择类型">
-            <el-option
-              v-for="dict in typeOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="标题" prop="title">
+              <el-input v-model="form.title" placeholder="请输入标题" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="内容" prop="content">
+              <Editor v-model="form.content" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="类型">
+              <el-select v-model="form.type" placeholder="请选择类型">
+                <el-option
+                  v-for="dict in typeOptions"
+                  :key="dict.dictValue"
+                  :label="dict.dictLabel"
+                  :value="dict.dictValue"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -130,9 +138,13 @@
 
 <script>
 import { listNoticeManger, getNoticeManger, delNoticeManger, addNoticeManger, updateNoticeManger, exportNoticeManger } from "@/api/system/noticeManger";
+import Editor from '@/components/Editor';
 
 export default {
   name: "NoticeManger",
+  components: {
+    Editor
+  },
   data() {
     return {
       // 遮罩层
