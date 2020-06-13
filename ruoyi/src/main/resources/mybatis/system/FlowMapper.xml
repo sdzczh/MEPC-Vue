@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
     <select id="selectFlowLists" resultType="java.util.Map">
-        SELECT b.id, u.phone, user_id, oper_type, relate_id, flows, account_type accountType, coin_type coinType, oper_id, amount, result_amount, b.create_time, b.update_time FROM flow b
+        SELECT b.id, u.phone, user_id, oper_type, relate_id, flows, account_type accountType, coin_type coinType, oper_id, amount, result_amount, b.create_time, b.update_time updateTime FROM flow b
         LEFT JOIN users u ON u.id = b.user_id        <where>
             <if test="id != null "> and b.id = #{id}</if>
             <if test="phone != null  and phone != ''"> and u.phone like concat('%', #{phone}, '%')</if>

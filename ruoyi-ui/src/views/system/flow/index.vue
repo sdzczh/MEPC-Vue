@@ -118,9 +118,6 @@
       <el-table-column label="金额" align="center" prop="amount" />
       <el-table-column label="操作后金额" align="center" prop="result_amount" />
       <el-table-column label="创建时间" align="center" prop="create_time" width="180">
-        <template slot-scope="scope">
-        <span>{{ parseTime(scope.row.create_time) }}</span>
-      </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
